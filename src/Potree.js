@@ -1,3 +1,8 @@
+import { BinaryHeap } from "../libs/other/BinaryHeap.js"
+export * from "../libs/three.js/extra/lines.js"
+export * from "../libs/plasio/js/laslaz.js"
+
+window.BinaryHeap = BinaryHeap
 
 export * from "./Actions.js";
 export * from "./AnimationPath.js";
@@ -97,7 +102,7 @@ export let lru = new LRU();
 console.log('Potree ' + version.major + '.' + version.minor + version.suffix);
 
 export let pointBudget = 1 * 1000 * 1000;
-export let framenumber = 0;
+let framenumber = 0;
 export let numNodesLoading = 0;
 export let maxNodesLoading = 4;
 

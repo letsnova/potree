@@ -1,6 +1,6 @@
 
 
-import {Shaders} from "../../build/shaders/shaders.js";
+import {Shaders} from "../shaders/shaders.js";
 
 
 export class NormalizationEDLMaterial extends THREE.RawShaderMaterial{
@@ -67,6 +67,6 @@ export class NormalizationEDLMaterial extends THREE.RawShaderMaterial{
 			this.updateShaderSource();
 		}
 	}
-	
+
 }
 

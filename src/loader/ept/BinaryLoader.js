@@ -1,4 +1,5 @@
 import {XHRFactory} from "../../XHRFactory.js";
+import Worker from '../../workers/EptBinaryDecoderWorker.js'
 
 export class EptBinaryLoader {
 	extension() {
@@ -38,8 +39,7 @@ export class EptBinaryLoader {
 	}
 
 	parse(node, buffer) {
-		let workerPath = this.workerPath();
-		let worker = Potree.workerPool.getWorker(workerPath);
+		let worker = new Worker();
 
 		worker.onmessage = function(e) {
 			let g = new THREE.BufferGeometry();

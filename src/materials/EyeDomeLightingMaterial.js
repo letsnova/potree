@@ -1,5 +1,5 @@
 
-import {Shaders} from "../../build/shaders/shaders.js";
+import {Shaders} from "../shaders/shaders.js";
 
 //
 // Algorithm by Christian Boucheny
@@ -80,6 +80,6 @@ export class EyeDomeLightingMaterial extends THREE.RawShaderMaterial{
 		}
 	}
 
-	
+
 }
 

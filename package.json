@@ -4,11 +4,15 @@
   "version": "0.0.1",
   "description": "WebGL point cloud viewer",
   "dependencies": {
-    "gulp": "^4.0.2",
-    "gulp-concat": "^2.6.1",
-    "gulp-connect": "^5.7.0",
-    "gulp-util": "^3.0.8",
-    "through": "~2.3.4"
+    "through": "~2.3.4",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11",
+    "worker-loader": "^2.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack watch",
+    "build": "webpack"
   },
   "author": "Markus Schütz",
   "license": "BSD-2-CLAUSE"

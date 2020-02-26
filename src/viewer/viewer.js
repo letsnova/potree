@@ -33,7 +33,7 @@ import { ClassificationScheme } from "../materials/ClassificationScheme.js";
 
 
 export class Viewer extends EventDispatcher{
-	
+
 	constructor(domElement, args = {}){
 		super();
 
@@ -50,7 +50,7 @@ export class Viewer extends EventDispatcher{
 			style="position: absolute; z-index: 1000; left: 10px; bottom: 10px">
 		</div>`);
 		$(domElement).append(this.elMessages);
-		
+
 		try{
 
 		{ // generate missing dom hierarchy
@@ -132,7 +132,7 @@ export class Viewer extends EventDispatcher{
 		this.transformationTool = null;
 		this.navigationCube = null;
 		this.compass = null;
-		
+
 		this.skybox = null;
 		this.clock = new THREE.Clock();
 		this.background = null;
@@ -167,19 +167,19 @@ export class Viewer extends EventDispatcher{
 				-1000, 1000
 			);
 		}
-		
+
 		this.pRenderer = new Renderer(this.renderer);
-		
+
 		{
 			let near = 2.5;
 			let far = 10.0;
 			let fov = 90;
-			
+
 			this.shadowTestCam = new THREE.PerspectiveCamera(90, 1, near, far);
 			this.shadowTestCam.position.set(3.50, -2.80, 8.561);
 			this.shadowTestCam.lookAt(new THREE.Vector3(0, 0, 4.87));
 		}
-		
+
 
 		let scene = new Scene(this.renderer);
 		this.setScene(scene);
@@ -194,11 +194,11 @@ export class Viewer extends EventDispatcher{
 			this.navigationCube.visible = false;
 
 			this.compass = new Compass(this);
-			
+
 			this.createControls();
 
 			this.clippingTool.setScene(this.scene);
-			
+
 			let onPointcloudAdded = (e) => {
 				if (this.scene.pointclouds.length === 1) {
 					let speed = e.pointcloud.boundingBox.getSize(new THREE.Vector3()).length();
@@ -214,7 +214,7 @@ export class Viewer extends EventDispatcher{
 			this.addEventListener('scene_changed', (e) => {
 				this.inputHandler.setScene(e.scene);
 				this.clippingTool.setScene(this.scene);
-				
+
 				if(!e.scene.hasEventListener("pointcloud_added", onPointcloudAdded)){
 					e.scene.addEventListener("pointcloud_added", onPointcloudAdded);
 				}
@@ -222,7 +222,7 @@ export class Viewer extends EventDispatcher{
 				if(!e.scene.hasEventListener("volume_removed", onPointcloudAdded)){
 					e.scene.addEventListener("volume_removed", onVolumeRemoved);
 				}
-				
+
 			});
 
 			this.scene.addEventListener("volume_removed", onVolumeRemoved);
@@ -405,7 +405,7 @@ export class Viewer extends EventDispatcher{
 
 	setDescription (value) {
 		this.description = value;
-		
+
 		$('#potree_description').html(value);
 		//$('#potree_description').text(value);
 	}
@@ -469,8 +469,8 @@ export class Viewer extends EventDispatcher{
 			this.clipTask = value;
 
 			this.dispatchEvent({
-				type: "cliptask_changed", 
-				viewer: this});		
+				type: "cliptask_changed",
+				viewer: this});
 		}
 	}
 
@@ -478,7 +478,7 @@ export class Viewer extends EventDispatcher{
 		if(this.clipMethod !== value){
 
 			this.clipMethod = value;
-			
+
 			this.dispatchEvent({
 				type: "clipmethod_changed",
 				viewer: this});
@@ -491,7 +491,7 @@ export class Viewer extends EventDispatcher{
 			this.elevationGradientRepeat = value;
 
 			this.dispatchEvent({
-				type: "elevation_gradient_repeat_changed", 
+				type: "elevation_gradient_repeat_changed",
 				viewer: this});
 		}
 	}
@@ -517,7 +517,7 @@ export class Viewer extends EventDispatcher{
 	getShowAnnotations () {
 		return this.showAnnotations;
 	}
-	
+
 	setDEMCollisionsEnabled(value){
 		if(this.useDEMCollisions !== value){
 			this.useDEMCollisions = value;
@@ -729,7 +729,7 @@ export class Viewer extends EventDispatcher{
 		} else {
 			bs = node.boundingBox.getBoundingSphere(new THREE.Sphere());
 		}
-		bs = bs.clone().applyMatrix4(node.matrixWorld); 
+		bs = bs.clone().applyMatrix4(node.matrixWorld);
 
 		let startPosition = view.position.clone();
 		let endPosition = camera.position.clone();
@@ -847,18 +847,18 @@ export class Viewer extends EventDispatcher{
 				break;
 		}
 	}
-	
+
 	setTopView(){
 		this.scene.view.yaw = 0;
 		this.scene.view.pitch = -Math.PI / 2;
 
 		this.fitToScreen();
 	};
-	
+
 	setBottomView(){
 		this.scene.view.yaw = -Math.PI;
 		this.scene.view.pitch = Math.PI / 2;
-		
+
 		this.fitToScreen();
 	};
 
@@ -868,11 +868,11 @@ export class Viewer extends EventDispatcher{
 
 		this.fitToScreen();
 	};
-	
+
 	setBackView(){
 		this.scene.view.yaw = Math.PI;
 		this.scene.view.pitch = 0;
-		
+
 		this.fitToScreen();
 	};
 
@@ -896,7 +896,7 @@ export class Viewer extends EventDispatcher{
 		// TODO flipyz
 		console.log('TODO');
 	}
-	
+
 	setCameraMode(mode){
 		this.scene.cameraMode = mode;
 
@@ -918,7 +918,7 @@ export class Viewer extends EventDispatcher{
 	async loadProject(url){
 
 		const response = await fetch(url);
-	
+
 		const json = await response.json();
 		// const json = JSON.parse(text);
 
@@ -932,20 +932,20 @@ export class Viewer extends EventDispatcher{
 	saveProject(){
 		return Potree.saveProject(this);
 	}
-	
+
 	loadSettingsFromURL(){
 		if(Utils.getParameterByName("pointSize")){
 			this.setPointSize(parseFloat(Utils.getParameterByName("pointSize")));
 		}
-		
+
 		if(Utils.getParameterByName("FOV")){
 			this.setFOV(parseFloat(Utils.getParameterByName("FOV")));
 		}
-		
+
 		if(Utils.getParameterByName("opacity")){
 			this.setOpacity(parseFloat(Utils.getParameterByName("opacity")));
 		}
-		
+
 		if(Utils.getParameterByName("edlEnabled")){
 			let enabled = Utils.getParameterByName("edlEnabled") === "true";
 			this.setEDLEnabled(enabled);
@@ -1106,7 +1106,7 @@ export class Viewer extends EventDispatcher{
 			}else{
 				this.guiLoadTasks.push(resolve);
 			}
-		
+
 		});
 	}
 
@@ -1182,11 +1182,11 @@ export class Viewer extends EventDispatcher{
 					});
 				});
 
-				
+
 
 			});
 
-			
+
 		});
 
 		return this.promiseGuiLoaded();
@@ -1255,12 +1255,12 @@ export class Viewer extends EventDispatcher{
 							transform: transform,
 							source: file.name,
 						};
-						
+
 						const geo = await Potree.GeoPackageLoader.loadBuffer(buffer, params);
 						viewer.scene.addGeopackage(geo);
 					}
 				}
-				
+
 			}
 		};
 
@@ -1302,7 +1302,7 @@ export class Viewer extends EventDispatcher{
 		let context = canvas.getContext('webgl', contextAttributes );
 
 		this.renderer = new THREE.WebGLRenderer({
-			alpha: true, 
+			alpha: true,
 			premultipliedAlpha: false,
 			canvas: canvas,
 			context: context});
@@ -1321,7 +1321,7 @@ export class Viewer extends EventDispatcher{
 		let gl = this.renderer.getContext();
 		gl.getExtension('EXT_frag_depth');
 		gl.getExtension('WEBGL_depth_texture');
-		
+
 		//if(gl instanceof WebGLRenderingContext){
 			let extVAO = gl.getExtension('OES_vertex_array_object');
 
@@ -1334,7 +1334,7 @@ export class Viewer extends EventDispatcher{
 		//}else if(gl instanceof WebGL2RenderingContext){
 		//	gl.getExtension("EXT_color_buffer_float");
 		//}
-		
+
 	}
 
 	onVr(callback){
@@ -1388,7 +1388,7 @@ export class Viewer extends EventDispatcher{
 
 			return false;
 		}
-		
+
 	}
 
 	updateAnnotations () {
@@ -1400,7 +1400,7 @@ export class Viewer extends EventDispatcher{
 		this.scene.annotations.updateBounds();
 		this.scene.cameraP.updateMatrixWorld();
 		this.scene.cameraO.updateMatrixWorld();
-		
+
 		let distances = [];
 
 		let renderAreaSize = this.renderer.getSize(new THREE.Vector2());
@@ -1482,13 +1482,13 @@ export class Viewer extends EventDispatcher{
 					visibleNow.push(annotation);
 				}
 			}
-			
+
 		});
 
 		let notVisibleAnymore = new Set(this.visibleAnnotations);
 		for(let annotation of visibleNow){
 			annotation.display = true;
-			
+
 			notVisibleAnymore.delete(annotation);
 		}
 		this.visibleAnnotations = visibleNow;
@@ -1503,10 +1503,10 @@ export class Viewer extends EventDispatcher{
 		// PROBLEM STATEMENT:
 		// * [min, max] of intensity, source id, etc. are computed as point clouds are loaded
 		// * the point cloud material won't know the range it should use until some data is loaded
-		// * users can modify the range at runtime, but sensible default ranges should be 
+		// * users can modify the range at runtime, but sensible default ranges should be
 		//   applied even if no GUI is present
 		// * display ranges shouldn't suddenly change even if the actual range changes over time.
-		//   e.g. the root node has intensity range [1, 478]. One of the descendants increases range to 
+		//   e.g. the root node has intensity range [1, 478]. One of the descendants increases range to
 		//   [0, 2047]. We should not automatically change to the new range because that would result
 		//   in sudden and drastic changes of brightness. We should adjust the min/max of the sidebar slider.
 
@@ -1534,11 +1534,11 @@ export class Viewer extends EventDispatcher{
 
 		if(Potree.measureTimings) performance.mark("update-start");
 
-		
+
 		const scene = this.scene;
 		const camera = scene.getActiveCamera();
 		const visiblePointClouds = this.scene.pointclouds.filter(pc => pc.visible)
-		
+
 		Potree.pointLoadLimit = Potree.pointBudget * 2;
 
 		const lTarget = camera.position.clone().add(camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(1000));
@@ -1591,7 +1591,7 @@ export class Viewer extends EventDispatcher{
 
 
 			// DEBUG - ONLY DISPLAY NODES THAT INTERSECT MOUSE
-			//if(false){ 
+			//if(false){
 
 			//	let renderer = viewer.renderer;
 			//	let mouse = viewer.inputHandler.mouse;
@@ -1671,7 +1671,7 @@ export class Viewer extends EventDispatcher{
 				if(near === Infinity){
 					near = 0.1;
 				}
-				
+
 				camera.near = near;
 				camera.far = far;
 			}else{
@@ -1681,10 +1681,10 @@ export class Viewer extends EventDispatcher{
 			if(this.scene.cameraMode == CameraMode.ORTHOGRAPHIC) {
 				camera.near = -camera.far;
 			}
-		} 
-		
+		}
+
 		this.scene.cameraP.fov = this.fov;
-		
+
 		if (this.getControls() === this.deviceControls) {
 			this.controls.setScene(scene);
 			this.controls.update(delta);
@@ -1707,7 +1707,7 @@ export class Viewer extends EventDispatcher{
 			this.scene.cameraO.rotation.x = Math.PI / 2 + this.scene.view.pitch;
 			this.scene.cameraO.rotation.z = this.scene.view.yaw;
 		}
-		
+
 		camera.updateMatrix();
 		camera.updateMatrixWorld();
 		camera.matrixWorldInverse.getInverse(camera.matrixWorld);
@@ -1739,7 +1739,7 @@ export class Viewer extends EventDispatcher{
 
 		{ // update clip boxes
 			let boxes = [];
-			
+
 			// volumes with clipping enabled
 			//boxes.push(...this.scene.volumes.filter(v => (v.clip)));
 			boxes.push(...this.scene.volumes.filter(v => (v.clip && v instanceof BoxVolume)));
@@ -1748,7 +1748,7 @@ export class Viewer extends EventDispatcher{
 			for(let profile of this.scene.profiles){
 				boxes.push(...profile.boxes);
 			}
-			
+
 			let clipBoxes = boxes.map( box => {
 				box.updateMatrixWorld();
 				let boxInverse = new THREE.Matrix4().getInverse(box.matrixWorld);
@@ -1757,7 +1757,7 @@ export class Viewer extends EventDispatcher{
 			});
 
 			let clipPolygons = this.scene.polygonClipVolumes.filter(vol => vol.initialized);
-			
+
 			// set clip volumes in material
 			for(let pointcloud of visiblePointClouds){
 				pointcloud.material.setClipBoxes(clipBoxes);
@@ -1772,18 +1772,18 @@ export class Viewer extends EventDispatcher{
 				pointcloud.material.elevationGradientRepeat = this.elevationGradientRepeat;
 			}
 		}
-		
+
 		{ // update navigation cube
 			this.navigationCube.update(camera.rotation);
 		}
 
 		this.updateAnnotations();
-		
+
 		if(this.mapView){
 			this.mapView.update(delta);
 			if(this.mapView.sceneProjection){
 				$( "#potree_map_toggle" ).css("display", "block");
-				
+
 			}
 		}
 
@@ -1793,13 +1793,13 @@ export class Viewer extends EventDispatcher{
 			type: 'update',
 			delta: delta,
 			timestamp: timestamp});
-			
+
 		if(Potree.measureTimings) {
 			performance.mark("update-end");
 			performance.measure("update", "update-start", "update-end");
 		}
 	}
-	
+
 	render(){
 		if(Potree.measureTimings) performance.mark("render-start");
 
@@ -1830,7 +1830,7 @@ export class Viewer extends EventDispatcher{
 					pRenderer = this.potreeRenderer;
 				}
 			}
-			
+
 			const vr = this.vr;
 			const vrActive = (vr && vr.display.isPresenting);
 
@@ -1866,8 +1866,8 @@ export class Viewer extends EventDispatcher{
 				};
 
 				const flipWorld = new THREE.Matrix4().fromArray([
-					1, 0, 0, 0, 
-					0, 0, 1, 0, 
+					1, 0, 0, 0,
+					0, 0, 1, 0,
 					0, -1, 0, 0,
 					0, 0, 0, 1
 				]);
@@ -1899,7 +1899,7 @@ export class Viewer extends EventDispatcher{
 				}
 
 				{// RIGHT
-				
+
 					camera.projectionMatrix.fromArray(frameData.rightProjectionMatrix);
 
 					const rightView = new THREE.Matrix4().fromArray(frameData.rightViewMatrix);
@@ -1990,7 +1990,7 @@ export class Viewer extends EventDispatcher{
 		}catch(e){
 			this.onCrash(e);
 		}
-		
+
 		if(Potree.measureTimings){
 			performance.mark("render-end");
 			performance.measure("render", "render-start", "render-end");
@@ -2004,14 +2004,14 @@ export class Viewer extends EventDispatcher{
 			}
 			let duration = timestamp - this.toggle;
 			if(duration > 1000.0){
-			
+
 				let measures = performance.getEntriesByType("measure");
-				
+
 				let names = new Set();
 				for(let measure of measures){
 					names.add(measure.name);
 				}
-				
+
 				let groups = new Map();
 				for(let name of names){
 					groups.set(name, {
@@ -2022,7 +2022,7 @@ export class Viewer extends EventDispatcher{
 						max: -Infinity
 					});
 				}
-				
+
 				for(let measure of measures){
 					let group = groups.get(measure.name);
 					group.measures.push(measure);
@@ -2047,32 +2047,32 @@ export class Viewer extends EventDispatcher{
 					groups.set(groupname, group);
 					names.add(groupname);
 				}
-				
+
 				for(let [name, group] of groups){
 					group.mean = group.sum / group.n;
 					group.measures.sort( (a, b) => a.duration - b.duration );
-					
+
 					if(group.n === 1){
 						group.median = group.measures[0].duration;
 					}else if(group.n > 1){
 						group.median = group.measures[parseInt(group.n / 2)].duration;
 					}
-					
+
 				}
-				
+
 				let cn = Array.from(names).reduce( (a, i) => Math.max(a, i.length), 0) + 5;
 				let cmin = 10;
 				let cmed = 10;
 				let cmax = 10;
 				let csam = 6;
-				
-				let message = ` ${"NAME".padEnd(cn)} |` 
+
+				let message = ` ${"NAME".padEnd(cn)} |`
 					+ ` ${"MIN".padStart(cmin)} |`
 					+ ` ${"MEDIAN".padStart(cmed)} |`
 					+ ` ${"MAX".padStart(cmax)} |`
 					+ ` ${"SAMPLES".padStart(csam)} \n`;
 				message += ` ${"-".repeat(message.length) }\n`;
-				
+
 				names = Array.from(names).sort();
 				for(let name of names){
 					let group = groups.get(name);
@@ -2080,7 +2080,7 @@ export class Viewer extends EventDispatcher{
 					let median = group.median.toFixed(3);
 					let max = group.max.toFixed(3);
 					let n = group.n;
-					
+
 					message += ` ${name.padEnd(cn)} |`
 						+ ` ${min.padStart(cmin)} |`
 						+ ` ${median.padStart(cmed)} |`
@@ -2089,7 +2089,7 @@ export class Viewer extends EventDispatcher{
 				}
 				message += `\n`;
 				console.log(message);
-				
+
 				performance.clearMarks();
 				performance.clearMeasures();
 				this.toggle = timestamp;
@@ -2173,7 +2173,7 @@ export class Viewer extends EventDispatcher{
 			performance.mark("loop-end");
 			performance.measure("loop", "loop-start", "loop-end");
 		}
-		
+
 		this.resolveTimings(timestamp);
 
 		Potree.framenumber++;
@@ -2217,7 +2217,7 @@ export class Viewer extends EventDispatcher{
 			let slideOutDuration = 200;
 			setTimeout(() => {
 				message.element.animate({
-					opacity: 0	
+					opacity: 0
 				}, fadeDuration);
 				message.element.slideToggle(slideOutDuration);
 			}, params.duration)
